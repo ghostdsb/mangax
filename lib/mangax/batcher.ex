@@ -12,13 +12,18 @@ defmodule Mangax.Batcher do
 
     %{
       chapter_name: chapter_name,
-      page_url: page_url,
+      page_url: page_url
     } = chapter_details
 
-    {:ok, %{chapter_name: chapter_name, page_url: page_url, mod: mod, manga_name: manga_name}, {:continue, :start_batch}}
+    {:ok, %{chapter_name: chapter_name, page_url: page_url, mod: mod, manga_name: manga_name},
+     {:continue, :start_batch}}
   end
 
-  def handle_continue(:start_batch, %{chapter_name: chapter_name, page_url: _page_url, mod: mod, manga_name: manga_name} = state) do
+  def handle_continue(
+        :start_batch,
+        %{chapter_name: chapter_name, page_url: _page_url, mod: mod, manga_name: manga_name} =
+          state
+      ) do
     images =
       state
       |> mod.fetch_chapter_homepage()

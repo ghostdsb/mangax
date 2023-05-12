@@ -1,4 +1,4 @@
-defmodule Mangax.OnePunchMan do
+defmodule Mangax.DemonSlayer do
   def fetch do
     anime_url()
     |> anime_homepage()
@@ -11,8 +11,8 @@ defmodule Mangax.OnePunchMan do
          [
            index,
            chapter_details,
-           Mangax.OnePunchMan,
-           "OnePunchMan"
+           Mangax.DemonSlayer,
+           "DemonSlayer"
          ]}
       )
     end)
@@ -23,7 +23,7 @@ defmodule Mangax.OnePunchMan do
     |> Mangax.Site.fetch()
     |> Floki.parse_document()
     |> case do
-      {:ok, document} -> Floki.find(document, "p")
+      {:ok, document} -> Floki.find(document, "img")
       _ -> []
     end
   end
@@ -49,17 +49,17 @@ defmodule Mangax.OnePunchMan do
             image_link: image_link :: String.t(),
             image_name: image_name :: String.t()
           })
-  def image_links(p_tags) do
-    p_tags
-    |> Enum.filter(fn p_tag -> filter_p_tag(p_tag) end)
-    |> Enum.map(fn {"p", [], [{"img", attr, []}]} ->
-      attr = attr -- [{"decoding", "async"}]
+  def image_links(img_tags) do
+    img_tags
+    |> Enum.filter(fn img_tag -> filter_img_tag(img_tag) end)
+    |> Enum.map(fn {"img", attr, _} ->
+      image_link = get_img(attr)
+      "https://demonslayer-manga.org/wp-content/uploads/" <> image_file = image_link
 
-      [
-        {"src", image_link},
-        {"alt", image_name},
-        {"title", _image_title}
-      ] = attr
+      image_name =
+        image_file
+        |> String.trim(".jpg")
+        |> String.replace("/", "-")
 
       %{
         image_link: image_link,
@@ -79,16 +79,23 @@ defmodule Mangax.OnePunchMan do
   end
 
   defp filter_a_tag({"a", [{tag, chapter_page_url}], [_chapter_name]}) do
-    tag == "href" and String.contains?(chapter_page_url, "one-punch-man-chapter")
+    tag == "href" and String.contains?(chapter_page_url, "demon-slaye")
   end
 
   defp filter_a_tag({"a", _attr, _children_node}), do: false
 
-  defp filter_p_tag({"p", [], [{"img", [{"decoding", "async"}, _src, _alt, _title], []}]}),
-    do: true
+  defp filter_img_tag({"img", attr, _}) do
+    attr
+    |> Enum.map(fn {tag, _} -> tag end)
+    |> Enum.find(fn tag -> tag == "srcset" end)
+    |> then(fn tag -> not is_nil(tag) end)
+  end
 
-  defp filter_p_tag({"p", [], [{"img", [_src, _alt, _title], []}]}), do: true
-  defp filter_p_tag({"p", _attr, _children_nodes}), do: false
+  defp get_img(attrs) do
+    attrs
+    |> Enum.find(fn {tag, _img_link} -> tag == "src" end)
+    |> then(fn {_tag, img_link} -> img_link end)
+  end
 
-  defp anime_url, do: "https://w4.1punchman-manga.com"
+  defp anime_url, do: "https://demonslayer-manga.org/"
 end
