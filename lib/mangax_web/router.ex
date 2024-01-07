@@ -18,6 +18,7 @@ defmodule MangaxWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    get "/:manga/:chapter", PageController, :index
   end
 
   # Other scopes may use custom stacks.

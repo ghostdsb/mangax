@@ -1,0 +1,4 @@
+
+<%= for name <- 1..@page_count do %>
+    <img src={Routes.static_path(@conn, "/images/#{@manga}/#{@chapter}/#{name}.jpg")} alt="" srcset="">
+<% end %>
