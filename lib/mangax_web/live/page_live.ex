@@ -21,7 +21,7 @@ defmodule MangaxWeb.PageLive do
       |> assign(:manga, @manga)
       |> assign(:chapter, @chapter)
       |> assign(:page_count, page_count)
+
     {:ok, socket}
   end
-
 end

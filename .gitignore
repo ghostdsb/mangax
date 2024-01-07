@@ -33,6 +33,12 @@ npm-debug.log
 /assets/node_modules/
 
 
+<<<<<<< HEAD
 
 /priv/static/images/DemonSlayer
 /priv/static/images/OnePunchMan
+=======
+/opm
+
+/downloads
+>>>>>>> c16dba2ad2119f31eade2d297e7b75624d81a331

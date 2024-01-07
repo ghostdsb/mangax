@@ -1,16 +1,18 @@
 defmodule Mangax.DemonSlayer do
-
   def fetch do
     chapters()
     |> Enum.with_index()
     |> Enum.each(fn {chapter_details, index} ->
-      DynamicSupervisor.start_child(Mangax.DownloadSupervisor,
-       {Mangax.Batcher, [
-        index,
-        chapter_details,
-        Mangax.DemonSlayer,
-        "DemonSlayer"
-        ]})
+      DynamicSupervisor.start_child(
+        Mangax.DownloadSupervisor,
+        {Mangax.Batcher,
+         [
+           index,
+           chapter_details,
+           Mangax.DemonSlayer,
+           "DemonSlayer"
+         ]}
+      )
     end)
   end
 
@@ -26,20 +28,20 @@ defmodule Mangax.DemonSlayer do
         image_name: "#{image_index}"
       }
     end)
-    # |> Enum.take(3)
   end
 
-  defp anime_url(chapter), do: "https://cdn.demonslayermanga.com/file/mangap/2285/10#{chapter}000/"
+  defp anime_url(chapter),
+    do: "https://cdn.demonslayermanga.com/file/mangap/2285/10#{chapter}000/"
 
   defp chapters do
     127..205
     |> Enum.map(fn chapter_number ->
       url = anime_url(chapter_number)
+
       %{
         page_url: url,
         chapter_name: chapter_number
       }
     end)
-    # |> Enum.take(1)
   end
 end

@@ -11,14 +11,21 @@ defmodule Mangax.Downloader do
     GenServer.call(:"#{name}", "status")
   end
 
-  def init([images, name, manga_name] = opts) do
-    opts |> IO.inspect(label: "DWL OPTS")
+  def init([images, name, manga_name] = _opts) do
+    # opts |> IO.inspect(label: "DWL OPTS")
     Logger.info("STARTING DOWNLOADER FOR #{inspect(name)}")
 
     File.mkdir_p("#{:code.priv_dir(:mangax)}/static/images/#{manga_name}/#{name}")
 
-    {:ok, %{progress: 0, total: Enum.count(images), retries: 0, name: name, images: images, manga_name: manga_name},
-     {:continue, :start_batch}}
+    {:ok,
+     %{
+       progress: 0,
+       total: Enum.count(images),
+       retries: 0,
+       name: name,
+       images: images,
+       manga_name: manga_name
+     }, {:continue, :start_batch}}
   end
 
   def handle_continue(:start_batch, %{images: images} = state) do
@@ -52,11 +59,17 @@ defmodule Mangax.Downloader do
     {:reply, state, state}
   end
 
-  def download(%{image_link: image_link, image_name: image_name} = _image_details, chapter_name, manga_name) do
+  def download(
+        %{image_link: image_link, image_name: image_name} = _image_details,
+        chapter_name,
+        manga_name
+      ) do
     case Mangax.Site.fetch(image_link) do
       {:ok, body} ->
         File.write("#{manga_name}/#{chapter_name}/#{image_name}.jpg", body)
-      :error -> :ok
+
+      :error ->
+        :ok
     end
   end
 end
