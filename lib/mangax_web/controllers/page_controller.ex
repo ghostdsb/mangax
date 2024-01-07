@@ -7,6 +7,7 @@ defmodule MangaxWeb.PageController do
       |> IO.inspect()
       |> File.ls!()
       |> Enum.count()
+
     render(conn, "index.html", manga: manga, chapter: chapter, page_count: page_count)
   end
 end

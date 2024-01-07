@@ -2,8 +2,8 @@
 
 ## Downloaders
 
-- Mangax.OnePunchMan.fetch()
-- Mangax.DemonSlayer.fetch()
+- Mangax.OnePunchMan.download()
+- Mangax.DemonSlayer.download()
 
 ## Reader
 

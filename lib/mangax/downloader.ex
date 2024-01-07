@@ -12,7 +12,6 @@ defmodule Mangax.Downloader do
   end
 
   def init([images, name, manga_name] = _opts) do
-    # opts |> IO.inspect(label: "DWL OPTS")
     Logger.info("STARTING DOWNLOADER FOR #{inspect(name)}")
 
     File.mkdir_p("#{:code.priv_dir(:mangax)}/static/images/#{manga_name}/#{name}")
