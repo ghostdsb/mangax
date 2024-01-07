@@ -14,7 +14,9 @@ defmodule Mangax.Downloader do
   def init([images, name, manga_name] = opts) do
     opts |> IO.inspect(label: "DWL OPTS")
     Logger.info("STARTING DOWNLOADER FOR #{inspect(name)}")
-    File.mkdir("#{manga_name}/#{name}/")
+
+    File.mkdir_p("#{:code.priv_dir(:mangax)}/static/images/#{manga_name}/#{name}")
+
     {:ok, %{progress: 0, total: Enum.count(images), retries: 0, name: name, images: images, manga_name: manga_name},
      {:continue, :start_batch}}
   end
@@ -51,7 +53,10 @@ defmodule Mangax.Downloader do
   end
 
   def download(%{image_link: image_link, image_name: image_name} = _image_details, chapter_name, manga_name) do
-    body = Mangax.Site.fetch(image_link)
-    File.write("#{manga_name}/#{chapter_name}/#{image_name}.jpg", body)
+    case Mangax.Site.fetch(image_link) do
+      {:ok, body} ->
+        File.write("#{manga_name}/#{chapter_name}/#{image_name}.jpg", body)
+      :error -> :ok
+    end
   end
 end
