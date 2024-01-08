@@ -1,7 +1,8 @@
 defmodule Mangax.Site do
-
   @spec fetch(url :: String.t()) :: String.t()
   def fetch(url) do
+    url |> IO.inspect(label: "URL")
+
     Tesla.get(url, opts: [adapter: [recv_timeout: 60_000]])
     |> case do
       {:ok, %Tesla.Env{body: body}} ->

@@ -3,11 +3,13 @@ defmodule Mangax.Batcher do
 
   require Logger
 
-  def start_link([batch, chapter_details, mod, manga_name]) do
-    GenServer.start_link(__MODULE__, [chapter_details, batch, mod, manga_name], name: :"#{batch}")
+  def start_link([batch, chapter_details, manga_name, manga_details]) do
+    GenServer.start_link(__MODULE__, [chapter_details, batch, manga_name, manga_details],
+      name: :"#{batch}"
+    )
   end
 
-  def init([chapter_details, batch, mod, manga_name]) do
+  def init([chapter_details, batch, manga_name, manga_details]) do
     Logger.info("STARTING BATCHER FOR #{inspect(batch)}")
 
     %{
@@ -15,19 +17,32 @@ defmodule Mangax.Batcher do
       page_url: page_url
     } = chapter_details
 
-    {:ok, %{chapter_name: chapter_name, page_url: page_url, mod: mod, manga_name: manga_name},
-     {:continue, :start_batch}}
+    {:ok,
+     %{
+       chapter_name: chapter_name,
+       page_url: page_url,
+       manga_name: manga_name,
+       manga_details: manga_details
+     }, {:continue, :start_batch}}
   end
 
   def handle_continue(
         :start_batch,
-        %{chapter_name: chapter_name, page_url: _page_url, mod: mod, manga_name: manga_name} =
-          state
+        %{
+          chapter_name: chapter_name,
+          page_url: page_url,
+          manga_name: manga_name,
+          manga_details: manga_details
+        } = state
       ) do
     images =
-      state
-      |> mod.fetch_chapter_homepage()
-      |> mod.image_links()
+      manga_details.page_range
+      |> Enum.map(fn image_index ->
+        %{
+          image_link: String.replace(page_url, "PAGE", image_index |> to_string),
+          image_name: "#{image_index}"
+        }
+      end)
 
     DynamicSupervisor.start_child(
       Mangax.DownloadSupervisor,

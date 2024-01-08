@@ -33,5 +33,6 @@ npm-debug.log
 /assets/node_modules/
 
 
+/priv/static/images/*
 /priv/static/images/DemonSlayer
 /priv/static/images/OnePunchMan
