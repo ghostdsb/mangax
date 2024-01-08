@@ -15,4 +15,6 @@ defmodule Mangax.DemonSlayer do
     __MODULE__.__struct__()
     |> Mangax.GeneralManga.start_downloading()
   end
+
+  def chapter_decode(chapter), do: "#{chapter}"
 end

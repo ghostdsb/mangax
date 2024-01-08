@@ -3,8 +3,8 @@ defmodule MangaxWeb.PageLive do
   use MangaxWeb, :live_view
   use Phoenix.HTML
 
-  @manga "DemonSlayer"
-  @chapter "156"
+  @manga "AttackOnTitans"
+  @chapter "3"
 
   @impl true
   def mount(_params, _session, socket) do

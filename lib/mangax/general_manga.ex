@@ -1,9 +1,11 @@
 defmodule Mangax.GeneralManga do
-  def start_downloading(manga_details) do
-    manga_details.chapter_range
+  def start_downloading(manga) do
+    manga.chapter_range
     |> Enum.map(fn chapter_number ->
+      manga_module = manga.__struct__
       %{
-        page_url: String.replace(manga_details.url, "CHAPTER", chapter_number |> to_string),
+        page_url:
+          String.replace(manga.url, "CHAPTER", manga_module.chapter_decode(chapter_number)),
         chapter_name: chapter_number
       }
     end)
@@ -15,8 +17,8 @@ defmodule Mangax.GeneralManga do
          [
            index,
            chapter_details,
-           manga_details.name,
-           manga_details
+           manga.name,
+           manga
          ]}
       )
     end)
