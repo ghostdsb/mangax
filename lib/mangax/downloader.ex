@@ -65,7 +65,10 @@ defmodule Mangax.Downloader do
       ) do
     case Mangax.Site.fetch(image_link) do
       {:ok, body} ->
-        File.write("#{manga_name}/#{chapter_name}/#{image_name}.jpg", body)
+        File.write(
+          "#{:code.priv_dir(:mangax)}/static/images/#{manga_name}/#{chapter_name}/#{image_name}.jpg",
+          body
+        )
 
       :error ->
         :ok

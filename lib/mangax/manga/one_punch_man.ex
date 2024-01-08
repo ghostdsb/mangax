@@ -7,8 +7,8 @@ defmodule Mangax.OnePunchMan do
         }
 
   defstruct name: "OnePunchMan",
-            chapter_range: 104..105,
-            page_range: 1..3,
+            chapter_range: 150..200,
+            page_range: 1..60,
             url:
               "https://cdn.readkakegurui.com/file/cdnpog/one-punch-man/chapter-CHAPTER/PAGE.webp"
 

@@ -1,3 +1,49 @@
+<form id="upload-form" phx-submit="save" phx-change="validate" class="px-4 py-2 mb-2 font-mono text-indigo-900 text-left border-2 border-indigo-100">
+
+    <select
+        placeholder="select config type"
+        id="manga"
+        name="manga"
+        class="mt-4 mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        required
+    >
+            <option value=""></option>
+        <%= for manga_name <- @mangas do %>
+            <option value={"#{manga_name}"}><%= manga_name %></option>
+        <% end %>
+    </select>
+
+    <select
+        placeholder="select config type"
+        id="chapter"
+        name="chapter"
+        class="mt-4 mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        required
+    >
+            <option value="" ></option>
+        <%= for chapter_name <- @chapters do %>
+            <option value={"#{chapter_name}"}><%= chapter_name %></option>
+        <% end %>
+    </select>
+
+
+    <%= submit("Submit",
+        phx_disable_with: "Adding...",
+        class:
+        "my-4 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+    ) %>
+</form>
+
+
+<button type="button" phx-click="prev" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">PREVIOUS</button>
+<button type="button" phx-click="next" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">NEXT</button>
+
+
+<h1><%= @manga %> - <%= @chapter %></h1>
+
 <%= for name <- 1..@page_count do %>
     <img src={"./images/#{@manga}/#{@chapter}/#{name}.jpg"} alt="" srcset="">
 <% end %>
+
+<button type="button" phx-click="prev" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">PREVIOUS</button>
+<button type="button" phx-click="next" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">NEXT</button>
