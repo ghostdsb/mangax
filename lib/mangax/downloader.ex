@@ -3,25 +3,28 @@ defmodule Mangax.Downloader do
 
   require Logger
 
-  def start_link([name, images, manga_name]) do
-    GenServer.start_link(__MODULE__, [images, name, manga_name], name: :"#{name}")
+  @spec start_link(list(String.t())) :: :ignore | {:error, any()} | {:ok, pid()}
+  def start_link([chapter_name, images, manga_name]) do
+    GenServer.start_link(__MODULE__, [images, chapter_name, manga_name],
+      name: :"chapter#{manga_name}#{chapter_name}"
+    )
   end
 
-  def status(name) do
-    GenServer.call(:"#{name}", "status")
+  def status(manga_name, chapter_name) do
+    GenServer.call(:"chapter#{manga_name}#{chapter_name}", "status")
   end
 
-  def init([images, name, manga_name] = _opts) do
-    Logger.info("STARTING DOWNLOADER FOR #{inspect(name)}")
+  def init([images, chapter_name, manga_name] = _opts) do
+    Logger.info("STARTING DOWNLOADER FOR #{inspect(chapter_name)}")
 
-    File.mkdir_p("#{:code.priv_dir(:mangax)}/static/images/#{manga_name}/#{name}")
+    File.mkdir_p("#{:code.priv_dir(:mangax)}/static/images/#{manga_name}/#{chapter_name}")
 
     {:ok,
      %{
        progress: 0,
        total: Enum.count(images),
        retries: 0,
-       name: name,
+       chapter_name: chapter_name,
        images: images,
        manga_name: manga_name
      }, {:continue, :start_batch}}
@@ -33,14 +36,14 @@ defmodule Mangax.Downloader do
   end
 
   def handle_info({"download", []}, state) do
-    Logger.info("#{state.name} DOWNLOAD COMPLETE")
+    Logger.info("#{state.chapter_name} DOWNLOAD COMPLETE")
     {:noreply, state}
   end
 
   def handle_info({"download", [image_details | rest] = images}, state) do
-    Logger.info("#{state.name} DOWNLOADING #{inspect(state.progress)}/#{state.total}")
+    Logger.info("#{state.chapter_name} DOWNLOADING #{inspect(state.progress)}/#{state.total}")
 
-    download(image_details, state.name, state.manga_name)
+    download(image_details, state.chapter_name, state.manga_name)
     |> case do
       :ok ->
         Process.send_after(self(), {"download", rest}, 1000)
