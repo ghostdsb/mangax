@@ -2,13 +2,13 @@
 
 ## Downloaders
 
-Add a module for the manga in manga folder of type given below
+Add a module for the manga in manga folder of type given below and implement Manga Protocol
 
 ```elixir
 @type t :: %__MODULE__{
           name: String.t(),
           url: String.t(),
-          chapter_range: Range.t(),
+          chapter_range: Range.t() | list(),
           page_range: Range.t()
         }
 
@@ -17,7 +17,10 @@ defstruct name: "AttackOnTitans",
             page_range: 1..75,
             url: "https://s1.cdn-manga.com/files/WP-manga/data/955/CHAPTER/PAGE.jpg"
 
-def chapter_decode(chapter), do: chapter
+defprotocol Manga do
+  @spec encode_chapter_name(Manga.t(), String.t() | number()) :: String.t()
+  def encode_chapter_name(manga, chapter)
+end
 ```
 
 To start downloading, call the function in iex.
@@ -25,8 +28,8 @@ To start downloading, call the function in iex.
 
 ## Reader
 
-Visit localhost:4000 for reading the downloaded manga
+Visit [site](localhost:4000) for reading the downloaded manga
 
 ## PDF
 
-Visit localhost:4000/#{manga}/#{chapter} to open in browser to print as PDF.
+Visit [site](localhost:4000/manga/chapter) to open in browser to print as PDF.

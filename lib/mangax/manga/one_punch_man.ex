@@ -12,10 +12,17 @@ defmodule Mangax.OnePunchMan do
             url:
               "https://cdn.readkakegurui.com/file/cdnpog/one-punch-man/chapter-CHAPTER/PAGE.webp"
 
+  @spec download() :: :ok
   def download do
     __MODULE__.__struct__()
     |> Mangax.GeneralManga.start_downloading()
   end
 
-  def chapter_decode(chapter), do: "#{chapter}"
+  @spec encode_chapter_name(number()) :: String.t()
+  def encode_chapter_name(chapter), do: "#{chapter}"
+end
+
+defimpl Manga, for: Mangax.OnePunchMan do
+  @spec encode_chapter_name(Mangax.OnePunchMan.t(), number()) :: String.t()
+  def encode_chapter_name(_manga, chapter), do: Mangax.OnePunchMan.encode_chapter_name(chapter)
 end

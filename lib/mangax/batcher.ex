@@ -5,7 +5,7 @@ defmodule Mangax.Batcher do
 
   def start_link([batch, chapter_details, manga_name, manga_details]) do
     GenServer.start_link(__MODULE__, [chapter_details, batch, manga_name, manga_details],
-      name: :"#{batch}"
+      name: :"batch#{manga_name}#{batch}"
     )
   end
 
