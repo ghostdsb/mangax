@@ -39,9 +39,15 @@ defmodule MangaxWeb.PageLive do
       |> File.ls!()
       |> next_chapter(socket.assigns.chapter)
 
+    page_count =
+      "#{:code.priv_dir(:mangax)}/static/images/#{socket.assigns.manga}/#{next_chapter}"
+      |> File.ls!()
+      |> Enum.count()
+
     socket =
       socket
       |> assign(:chapter, next_chapter)
+      |> assign(:page_count, page_count)
 
     {:noreply, socket}
   end
@@ -53,9 +59,15 @@ defmodule MangaxWeb.PageLive do
       |> File.ls!()
       |> previous_chapter(socket.assigns.chapter)
 
+    page_count =
+      "#{:code.priv_dir(:mangax)}/static/images/#{socket.assigns.manga}/#{prev_chapter}"
+      |> File.ls!()
+      |> Enum.count()
+
     socket =
       socket
       |> assign(:chapter, prev_chapter)
+      |> assign(:page_count, page_count)
 
     {:noreply, socket}
   end
@@ -69,11 +81,17 @@ defmodule MangaxWeb.PageLive do
       |> File.ls!()
       |> file_sort
 
+    page_count =
+      "#{:code.priv_dir(:mangax)}/static/images/#{manga}/#{chapter}"
+      |> File.ls!()
+      |> Enum.count()
+
     socket =
       socket
       |> assign(:chapters, chapters)
       |> assign(:manga, manga)
       |> assign(:chapter, chapter)
+      |> assign(:page_count, page_count)
 
     {:noreply, socket}
   end
@@ -118,7 +136,7 @@ defmodule MangaxWeb.PageLive do
   end
 
   def previous_chapter(chapters, current_chapter) do
-    [_current, next] =
+    [prev, _current] =
       chapters
       |> file_sort()
       |> Enum.chunk_every(2, 1, :discard)
@@ -126,6 +144,6 @@ defmodule MangaxWeb.PageLive do
         b == current_chapter
       end)
 
-    next
+    prev
   end
 end

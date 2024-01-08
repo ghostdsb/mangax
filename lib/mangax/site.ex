@@ -3,14 +3,16 @@ defmodule Mangax.Site do
   def fetch(url) do
     url |> IO.inspect(label: "URL")
 
-    Tesla.get(url, opts: [adapter: [recv_timeout: 60_000]])
-    |> case do
-      {:ok, %Tesla.Env{body: body}} ->
-        {:ok, body}
-
-      {:error, reason} ->
-        IO.inspect("#{reason}")
-        :error
+    with {:ok, %Tesla.Env{body: body, headers: headers}} <-
+           Tesla.get(url, opts: [adapter: [recv_timeout: 60_000]]),
+         {_, content_type} <- headers |> List.keyfind("content-type", 0),
+         :ok <- is_image(content_type) do
+      {:ok, body}
+    else
+      _ -> :error
     end
   end
+
+  defp is_image("image/" <> _type), do: :ok
+  defp is_image(_), do: :error
 end
