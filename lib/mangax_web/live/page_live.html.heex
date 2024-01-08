@@ -7,7 +7,6 @@
         class="mt-4 mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         required
     >
-            <option value=""></option>
         <%= for manga_name <- @mangas do %>
             <option value={"#{manga_name}"}><%= manga_name %></option>
         <% end %>
@@ -20,7 +19,6 @@
         class="mt-4 mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         required
     >
-            <option value="" ></option>
         <%= for chapter_name <- @chapters do %>
             <option value={"#{chapter_name}"}><%= chapter_name %></option>
         <% end %>
@@ -35,15 +33,22 @@
 </form>
 
 
-<button type="button" phx-click="prev" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">PREVIOUS</button>
-<button type="button" phx-click="next" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">NEXT</button>
+<button id="p1" type="button" phx-hook="ScrollToTop" phx-click="prev" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">PREVIOUS</button>
+<button id="p2" type="button" phx-hook="ScrollToTop" phx-click="next" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">NEXT</button>
 
 
 <h1><%= @manga %> - <%= @chapter %></h1>
 
 <%= for name <- 1..@page_count do %>
-    <img src={"./images/#{@manga}/#{@chapter}/#{name}.jpg"} alt="" srcset="">
+    <div style={"padding: 3px;
+  margin: 10px;
+  border: black;
+  background: black;
+  align-content: center;
+  display: flex;"}>
+        <img src={"./images/#{@manga}/#{@chapter}/#{name}.jpg"} alt="" srcset="">
+    </div>
 <% end %>
 
-<button type="button" phx-click="prev" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">PREVIOUS</button>
-<button type="button" phx-click="next" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">NEXT</button>
+<button id="p3" type="button" phx-click="prev" phx-hook="ScrollToTop" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">PREVIOUS</button>
+<button id="p4" type="button" phx-click="next" phx-hook="ScrollToTop" class="mt-4 py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none">NEXT</button>

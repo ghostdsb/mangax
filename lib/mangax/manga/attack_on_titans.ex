@@ -8,7 +8,7 @@ defmodule Mangax.AttackOnTitans do
 
   defstruct name: "AttackOnTitans",
             chapter_range: (1..139 |> Enum.to_list()) ++ [139.5],
-            page_range: 1..20,
+            page_range: 1..75,
             url: "https://s1.cdn-manga.com/files/WP-manga/data/955/CHAPTER/PAGE.jpg"
 
   @spec download() :: :ok
