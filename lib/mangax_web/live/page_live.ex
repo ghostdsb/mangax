@@ -74,7 +74,7 @@ defmodule MangaxWeb.PageLive do
 
   @impl true
   def handle_event("save", params, socket) do
-    %{"manga" => manga, "chapter" => chapter} = params |> IO.inspect()
+    %{"manga" => manga, "chapter" => chapter} = params
 
     chapters =
       "#{:code.priv_dir(:mangax)}/static/images/#{manga}/"

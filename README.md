@@ -1,35 +1,36 @@
 # Mangax
 
-## Downloaders
+Once download process start, it spawns a pool of workers that download pages from 
+each chapter asynchronously.
 
-Add a module for the manga in manga folder of type given below and implement Manga Protocol
+![demonslayer](./assets/demo.png)
+
+## Features
+
+- Download mangas by providing wildcard urls
+- Doesnot download if already downloaded
+- Manga reader for easy manga
+- Open manga in browser to download as PDF
+
+## How to use
+### Downloaders
+
+Add a module for the manga in manga folder of type given below and implement `ProtocolManga`. Check out [a_manga](./lib/mangax/a_manga).
 
 ```elixir
-@type t :: %__MODULE__{
-          name: String.t(),
-          url: String.t(),
-          chapter_range: Range.t() | list(),
-          page_range: Range.t()
-        }
-
-defstruct name: "AttackOnTitans",
-            chapter_range: 1..139,
-            page_range: 1..75,
-            url: "https://s1.cdn-manga.com/files/WP-manga/data/955/CHAPTER/PAGE.jpg"
-
-defprotocol Manga do
-  @spec encode_chapter_name(Manga.t(), String.t() | number()) :: String.t()
-  def encode_chapter_name(manga, chapter)
-end
+defstruct 
+  name: "MangaName",
+  chapter_range: (1..139 |> Enum.to_list()) ++ [139.5],
+  url: "https://www.somemangasite/CHAPTER/PAGE.jpg"
 ```
 
 To start downloading, call the function in iex.
 > Mangax.__MODULE__.download()
 
-## Reader
+### Reader
 
-Visit [site](localhost:4000) for reading the downloaded manga
+Visit `localhost:4000` for reading the downloaded manga
 
-## PDF
+### PDF
 
-Visit [site](localhost:4000/manga/chapter) to open in browser to print as PDF.
+Visit `localhost:4000/manga/chapter` to open in browser to print as PDF.

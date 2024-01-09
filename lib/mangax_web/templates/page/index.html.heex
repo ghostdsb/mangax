@@ -1,4 +1,17 @@
 
-<%= for name <- 1..@page_count do %>
-    <img src={Routes.static_path(@conn, "/images/#{@manga}/#{@chapter}/#{name}.jpg")} alt="" srcset="">
-<% end %>
+<div style={"
+align-content: center;
+  display: flex;
+"}>
+    <h1><%= @manga %> - <%= @chapter %></h1>
+    <%= for name <- 1..@page_count do %>
+    <div style={"padding: 3px;
+    margin: 10px;
+    border: black;
+    background: black;
+    align-content: center;
+    display: flex;"}>
+        <img src={Routes.static_path(@conn, "/images/#{@manga}/#{@chapter}/#{name}.jpg")} alt="" srcset="">
+        </div>
+    <% end %>
+</div>
