@@ -1,6 +1,6 @@
 # Mangax
 
-Once download process start, it spawns a pool of workers that download pages from 
+Once download process starts, it spawns a pool of workers that download pages from 
 each chapter asynchronously.
 
 ![demonslayer](./assets/demo.png)
@@ -8,8 +8,8 @@ each chapter asynchronously.
 ## Features
 
 - Download mangas by providing wildcard urls
-- Doesnot download if already downloaded
-- Manga reader for easy manga
+- Doesn ot download if already downloaded
+- Manga reader for easy reading
 - Open manga in browser to download as PDF
 
 ## How to use
