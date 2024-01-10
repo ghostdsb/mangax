@@ -3,7 +3,7 @@
 Once download process starts, it spawns a pool of workers that download pages from 
 each chapter asynchronously.
 
-![demonslayer](./assets/demo.png)
+![demonslayer](./assets/mangax.gif)
 
 ## Features
 
