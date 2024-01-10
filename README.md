@@ -12,6 +12,11 @@ A manga downloader and reader that you can serve and share with your friends.
 - Open manga in browser to download as PDF
 
 ## How to use
+
+### Run server
+
+> iex -S mix phx.server
+
 ### Downloaders
 
 Add a module for the manga in manga folder of type given below and implement `ProtocolManga`. Check out [a_manga](./lib/mangax/a_manga).
