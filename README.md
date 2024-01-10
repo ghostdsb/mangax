@@ -1,7 +1,6 @@
 # Mangax
 
-Once download process starts, it spawns a pool of workers that download pages from 
-each chapter asynchronously.
+A manga downloader and reader that you can serve and share with your friends.
 
 ![demonslayer](./assets/mangax.gif)
 
