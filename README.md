@@ -24,7 +24,7 @@ Add a module for the manga in manga folder of type given below and implement `Pr
 ```elixir
 defstruct 
   name: "MangaName",
-  chapter_range: (1..139 |> Enum.to_list()) ++ [139.5],
+  chapter_range: 1..139,
   url: "https://www.somemangasite/CHAPTER/PAGE.jpg"
 ```
 
